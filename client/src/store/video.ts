@@ -111,7 +111,7 @@ export const mutations = mutationTree(state, {
       if (width >= 600 && height >= 300) {
         for (const j of Object.keys(rates)) {
           const rate = rates[j]
-          if (rate === 30 || rate === 60) {
+          if (rate === 30 || rate === 60 || rate === 50) {
             data.push({
               width,
               height,
