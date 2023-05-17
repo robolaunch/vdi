@@ -22,3 +22,12 @@ steps:
   dockerfile: "Dockerfile"
   context: .docker/robolaunch/dockerfiles/xfce
   push: false
+- name: devspace
+  image:
+    repository: devspace
+    tag: xfce-focal
+  baseStep: "xfce"
+  path: "."
+  dockerfile: "Dockerfile"
+  context: .docker/robolaunch/dockerfiles/devspace
+  push: false
