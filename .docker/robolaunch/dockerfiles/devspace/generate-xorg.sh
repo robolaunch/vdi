@@ -23,13 +23,13 @@ fi
 if [ -z "$GPU_SELECT" ]; then
   echo "No NVIDIA GPUs detected."
 #   apt-get install -y xserver-xorg-video-dummy
-  cp /etc/neko/xorg.conf /etc/X11/xorg.conf
-  sed -i 's|::X-ENTRYPOINT::|/usr/bin/X -config /etc/X11/xorg.conf %(ENV_DISPLAY)s|' /etc/neko/supervisord.conf
-  sed -i 's|::NEKO_ENTRYPOINT::|/usr/bin/neko serve -d --static "/var/www" --video_codec "h264"|' /etc/neko/supervisord.conf
+  cp /etc/vdi/xorg.conf /etc/X11/xorg.conf
+  sed -i 's|::X-ENTRYPOINT::|/usr/bin/X -config /etc/X11/xorg.conf %(ENV_DISPLAY)s|' /etc/vdi/supervisord.conf
+  sed -i 's|::NEKO_ENTRYPOINT::|/usr/bin/vdi serve -d --static "/var/www" --video_codec "h264"|' /etc/vdi/supervisord.conf
   exit 0
 else
-  sed -i 's|::X-ENTRYPOINT::|/usr/bin/X vt7 -novtswitch -sharevts +extension "MIT-SHM" %(ENV_DISPLAY)s -config /etc/X11/xorg.conf %(ENV_DISPLAY)s|' /etc/neko/supervisord.conf
-  sed -i 's|::NEKO_ENTRYPOINT::|/usr/bin/neko serve -d --static "/var/www" --video_codec "h264" --hwenc "nvenc"|' /etc/neko/supervisord.conf
+  sed -i 's|::X-ENTRYPOINT::|/usr/bin/X vt7 -novtswitch -sharevts +extension "MIT-SHM" %(ENV_DISPLAY)s -config /etc/X11/xorg.conf %(ENV_DISPLAY)s|' /etc/vdi/supervisord.conf
+  sed -i 's|::NEKO_ENTRYPOINT::|/usr/bin/vdi serve -d --static "/var/www" --video_codec "h264" --hwenc "nvenc"|' /etc/vdi/supervisord.conf
 fi
 
 if [ -f "/etc/X11/xorg.conf" ]; then

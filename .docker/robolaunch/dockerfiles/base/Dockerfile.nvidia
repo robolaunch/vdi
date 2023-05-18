@@ -123,7 +123,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 #
 # set custom user
-ARG USERNAME=neko
+ARG USERNAME=robolaunch
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
@@ -201,12 +201,12 @@ RUN set -eux; \
     chown $USERNAME /tmp/.X11-unix/; \
     #
     # make directories for neko
-    mkdir -p /etc/neko /var/www /var/log/neko \
+    mkdir -p /etc/vdi /var/www /var/log/vdi \
         /tmp/runtime-$USERNAME \
         /home/$USERNAME/.config/pulse  \
         /home/$USERNAME/.local/share/xorg; \
-    chmod 1777 /var/log/neko; \
-    chown $USERNAME /var/log/neko/ /tmp/runtime-$USERNAME; \
+    chmod 1777 /var/log/vdi; \
+    chown $USERNAME /var/log/vdi/ /tmp/runtime-$USERNAME; \
     chown -R $USERNAME:$USERNAME /home/$USERNAME; \
     #
     # clean up
@@ -257,8 +257,8 @@ RUN set -eux; \
 # copy config files
 COPY .docker/robolaunch/dockerfiles/base/dbus /usr/bin/dbus
 COPY .docker/robolaunch/dockerfiles/base/default.pa /etc/pulse/default.pa
-COPY .docker/robolaunch/dockerfiles/base/supervisord.conf /etc/neko/supervisord.conf
-COPY .docker/robolaunch/dockerfiles/base/xorg.conf /etc/neko/xorg.conf
+COPY .docker/robolaunch/dockerfiles/base/supervisord.conf /etc/vdi/supervisord.conf
+COPY .docker/robolaunch/dockerfiles/base/xorg.conf /etc/vdi/xorg.conf
 COPY .docker/robolaunch/dockerfiles/base/nvidia/entrypoint.sh /bin/entrypoint.sh
 
 #
@@ -267,7 +267,7 @@ ENV USER=$USERNAME
 ENV DISPLAY=:99.0
 ENV PULSE_SERVER=unix:/tmp/pulseaudio.socket
 ENV XDG_RUNTIME_DIR=/tmp/runtime-$USERNAME
-ENV NEKO_PASSWORD=neko
+ENV NEKO_PASSWORD=vdi
 ENV NEKO_PASSWORD_ADMIN=admin
 ENV NEKO_BIND=:8080
 
@@ -283,7 +283,7 @@ COPY --from=gstreamer /opt/gstreamer /opt/gstreamer
 
 #
 # copy static files from previous stages
-COPY --from=server /src/bin/neko /usr/bin/neko
+COPY --from=server /src/bin/neko /usr/bin/vdi
 COPY --from=client /src/dist/ /var/www
 
 HEALTHCHECK --interval=10s --timeout=5s --retries=8 \
@@ -291,4 +291,4 @@ HEALTHCHECK --interval=10s --timeout=5s --retries=8 \
 
 #
 # run neko
-CMD ["/usr/bin/supervisord", "-c", "/etc/neko/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/vdi/supervisord.conf"]
