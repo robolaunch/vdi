@@ -1,11 +1,11 @@
-name: vdi
+name: devspace
 registry: docker.io
 organization: robolaunchio
 steps:
 - name: vdi-base
   image:
     repository: vdi-base
-    tag: focal
+    tag: focal-amd64
   path: ".docker/robolaunch/dockerfiles/base"
   dockerfile: "Dockerfile.nvidia"
   buildArgs: 
@@ -16,7 +16,7 @@ steps:
 - name: xfce
   image:
     repository: xfce
-    tag: focal
+    tag: focal-amd64
   baseStep: "vdi-base"
   path: "."
   dockerfile: "Dockerfile"
@@ -25,7 +25,7 @@ steps:
 - name: devspace
   image:
     repository: devspace
-    tag: xfce-focal
+    tag: xfce-focal-amd64
   baseStep: "xfce"
   path: "."
   dockerfile: "Dockerfile"
