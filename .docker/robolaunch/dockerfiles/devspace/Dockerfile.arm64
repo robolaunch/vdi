@@ -1,0 +1,20 @@
+ARG BASE_IMAGE=ubuntu:focal
+FROM ${BASE_IMAGE}
+
+SHELL ["/bin/bash", "-c"]
+
+### initial screen configurations
+RUN apt-get update && apt-get install -y \
+        nano \
+        curl 
+
+### helper tools
+RUN apt-get update && apt-get install -y \
+    curl \
+    pip \
+    git \
+    wget \
+    dnsutils
+RUN curl -fsSL https://code-server.dev/install.sh | sh
+
+CMD ["sleep", "infinity"]

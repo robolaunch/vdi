@@ -1,31 +1,40 @@
-name: devspace-focal-amd64
+name: devspace-jammy-amd64
 registry: docker.io
 organization: robolaunchio
 steps:
 - name: vdi-base
   image:
     repository: vdi-base
-    tag: focal-amd64
+    tag: jammy-amd64
   path: ".docker/robolaunch/dockerfiles/base"
   dockerfile: "Dockerfile.nvidia"
   buildArgs: 
-    "UBUNTU_RELEASE": "20.04"
-    "CUDA_VERSION": "11.4.3"
+    "UBUNTU_RELEASE": "22.04"
+    "CUDA_VERSION": "11.8.0"
     "VIRTUALGL_VERSION": "3.1"
   push: false
-- name: xfce
+- name: xfce-base
   image:
     repository: xfce
-    tag: focal-amd64
+    tag: base-jammy-amd64
   baseStep: "vdi-base"
   path: "."
   dockerfile: "Dockerfile"
   context: .docker/robolaunch/dockerfiles/xfce
   push: false
+- name: xfce
+  image:
+    repository: xfce
+    tag: jammy-amd64
+  baseStep: "xfce-base"
+  path: "."
+  dockerfile: "Dockerfile.jammy-ext"
+  context: .docker/robolaunch/dockerfiles/xfce
+  push: false
 - name: devspace
   image:
     repository: devspace
-    tag: xfce-focal-amd64
+    tag: xfce-jammy-amd64
   baseStep: "xfce"
   path: "."
   dockerfile: "Dockerfile.amd64"

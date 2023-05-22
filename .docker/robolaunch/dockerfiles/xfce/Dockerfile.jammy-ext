@@ -1,0 +1,4 @@
+ARG BASE_IMAGE=m1k1o/neko:base
+FROM ${BASE_IMAGE}
+
+RUN apt-get update && apt-get install -y xcvt
