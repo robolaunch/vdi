@@ -1,7 +1,8 @@
 version: "3.4"
 services:
-  neko:
-    image: "m1k1o/neko:firefox"
+  neko1:
+    image: "robolaunchio/devspace:xfce-focal"
+    entrypoint: "supervisord -c /etc/neko/supervisord.conf"
     restart: "unless-stopped"
     shm_size: "2gb"
     ports:
@@ -13,3 +14,37 @@ services:
       NEKO_PASSWORD_ADMIN: admin
       NEKO_EPR: 52000-52100
       NEKO_ICELITE: 1
+      NEKO_VIDEO_CODEC: h264
+      NEKO_HWENC: nvenc
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: 1
+            capabilities: [gpu]
+  neko2:
+    image: "robolaunchio/devspace:xfce-focal"
+    entrypoint: "supervisord -c /etc/neko/supervisord.conf"
+    restart: "unless-stopped"
+    shm_size: "2gb"
+    ports:
+      - "9090:9090"
+      - "51000-51100:51000-51100/udp"
+    environment:
+      NEKO_SCREEN: 1920x1080@30
+      NEKO_PASSWORD: neko
+      NEKO_PASSWORD_ADMIN: admin
+      NEKO_EPR: 51000-51100
+      NEKO_NAT1TO1: 172.31.75.192
+      NEKO_ICELITE: 0
+      NEKO_VIDEO_CODEC: h264
+      NEKO_HWENC: nvenc
+      NEKO_BIND: :9090
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: 1
+            capabilities: [gpu]
