@@ -8,4 +8,6 @@ steps:
     tag: focal-arm64
   path: ".docker/robolaunch/dockerfiles/devspace"
   dockerfile: "Dockerfile.arm64"
+  buildArgs:
+    "BASE_IMAGE": "ubuntu:focal"
   push: false

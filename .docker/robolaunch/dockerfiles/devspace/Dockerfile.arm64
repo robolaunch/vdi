@@ -2,11 +2,12 @@ ARG BASE_IMAGE=ubuntu:focal
 FROM ${BASE_IMAGE}
 
 SHELL ["/bin/bash", "-c"]
+ARG DEBIAN_FRONTEND=noninteractive
 
 ### initial screen configurations
 RUN apt-get update && apt-get install -y \
-        nano \
-        curl 
+    nano \
+    curl 
 
 ### helper tools
 RUN apt-get update && apt-get install -y \
