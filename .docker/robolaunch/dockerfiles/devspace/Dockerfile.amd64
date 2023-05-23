@@ -37,6 +37,8 @@ RUN set -eux; \
 RUN apt-get update && apt-get install -y 
 
 ### set theme
+ARG FIREFOX_ICON_URL="https://cdn-icons-png.flaticon.com/512/5968/5968827.png"
+RUN wget ${FIREFOX_ICON_URL} -O firefox.png && mv firefox.png /usr/share/icons/
 COPY xfce4.tar.gz .
 RUN tar -xf xfce4.tar.gz --directory /home/robolaunch/.config/
 RUN rm -rf xfce4.tar.gz
