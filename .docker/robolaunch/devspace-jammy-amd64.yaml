@@ -34,7 +34,7 @@ steps:
 - name: devspace
   image:
     repository: devspace
-    tag: xfce-jammy-amd64
+    tag: jammy-xfce-amd64
   baseStep: "xfce"
   path: "."
   dockerfile: "Dockerfile.amd64"

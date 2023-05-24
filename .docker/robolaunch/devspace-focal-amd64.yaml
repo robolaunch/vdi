@@ -25,7 +25,7 @@ steps:
 - name: devspace
   image:
     repository: devspace
-    tag: xfce-focal-amd64
+    tag: focal-xfce-amd64
   baseStep: "xfce"
   path: "."
   dockerfile: "Dockerfile.amd64"
