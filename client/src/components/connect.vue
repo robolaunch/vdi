@@ -1,8 +1,8 @@
 <template>
   <div class="connect">
     <div class="window">
-      <div class="logo" title="About n.eko" @click.stop.prevent="about">
-        <img src="@/assets/images/logo.svg" alt="n.eko" />
+      <div class="logo" title="About robolaunch VDI" @click.stop.prevent="about">
+        <img src="@/assets/images/logo.svg" alt="robolaunch VDI" />
         <span><b>n</b>.eko</span>
       </div>
       <form class="message" v-if="!connecting" @submit.stop.prevent="connect">
