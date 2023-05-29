@@ -4,7 +4,7 @@
       <ul class="members-list">
         <li v-if="member">
           <div :class="[{ host: member.id === host }, 'self', 'member']">
-            <-avatar class="avatar" :seed="member.displayname" :size="50" />
+            <neko-avatar class="avatar" :seed="member.displayname" :size="50" />
           </div>
         </li>
         <template v-for="(member, index) in members">

@@ -3,7 +3,7 @@
     <div class="window">
       <div class="logo" title="About robolaunch VDI" @click.stop.prevent="about">
         <img src="@/assets/images/logo.svg" alt="robolaunch VDI" />
-        <span><b>n</b>.eko</span>
+        <span><b>vdi</b></span>
       </div>
       <form class="message" v-if="!connecting" @submit.stop.prevent="connect">
         <span v-if="!autoPassword">{{ $t('connect.login_title') }}</span>
