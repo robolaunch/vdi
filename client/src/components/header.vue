@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <a href="https://github.com/m1k1o/neko" title="Github repository" target="_blank" class="neko">
+    <a href="https://github.com/robolaunch" title="Github repository" target="_blank" class="neko">
       <img src="@/assets/images/logo.svg" alt="robolaunch VDI" />
       <span><b>vdi</b></span>
     </a>
