@@ -95,7 +95,8 @@ WORKDIR /src
 COPY client/package*.json ./
 RUN npm install
 
-ARG ASDfAa
+ARG ccc
+
 #
 # build client
 COPY client/ .
