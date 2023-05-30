@@ -1,6 +1,6 @@
 {
-    "name": "n.eko",
-    "short_name": "n.eko",
+    "name": "robolaunch VDI",
+    "short_name": "vdi",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -13,7 +13,7 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#19bd9c",
-    "background_color": "#19bd9c",
+    "theme_color": "#8C52FF",
+    "background_color": "#8C52FF",
     "display": "standalone"
 }

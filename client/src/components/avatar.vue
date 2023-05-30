@@ -44,9 +44,9 @@
         c = 0
 
       for (let i = 0; i < seed.length; i++) {
-        a += seed.charCodeAt(i) * 3
-        b += seed.charCodeAt(i) * 5
-        c += seed.charCodeAt(i) * 7
+        a += seed.charCodeAt(i) * 5
+        b += seed.charCodeAt(i) * 7
+        c += seed.charCodeAt(i) * 9
       }
 
       let x = Math.floor(128 + (a % 128))

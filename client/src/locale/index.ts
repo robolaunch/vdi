@@ -1,4 +1,5 @@
 import * as en from './en-us'
+import * as tr from './tr-tr'
 import * as es from './es-sp'
 import * as sk from './sk-sk'
 import * as sv from './sv-se'
@@ -12,6 +13,7 @@ import * as cn from './zh-cn'
 
 export const messages = {
   en,
+  tr,
   es,
   sk,
   sv,
