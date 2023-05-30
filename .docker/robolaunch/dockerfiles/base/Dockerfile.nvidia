@@ -95,8 +95,6 @@ WORKDIR /src
 COPY client/package*.json ./
 RUN npm install
 
-ARG ccc
-
 #
 # build client
 COPY client/ .
