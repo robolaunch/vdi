@@ -4,6 +4,26 @@ FROM ${BASE_IMAGE}
 SHELL ["/bin/bash", "-c"]
 ARG DEBIAN_FRONTEND=noninteractive
 
+ARG USERNAME=robolaunch
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
+RUN set -eux; apt-get update; \
+    groupadd --gid $USER_GID $USERNAME; \
+    useradd --uid $USER_UID --gid $USERNAME --shell /bin/bash --create-home $USERNAME; \
+    adduser $USERNAME audio; \
+    adduser $USERNAME video; \
+    adduser $USERNAME pulse; \
+    chown -R $USERNAME:$USERNAME /home/$USERNAME; \
+    #
+    # add user to sudoers
+    usermod -aG sudo robolaunch; \
+    echo "robolaunch:robolaunch" | chpasswd; \
+    echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers; \
+    # clean up
+    apt-get clean -y; \
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
 ### initial screen configurations
 RUN apt-get update && apt-get install -y \
     nano \
@@ -17,5 +37,7 @@ RUN apt-get update && apt-get install -y \
     wget \
     dnsutils
 RUN curl -fsSL https://code-server.dev/install.sh | sh
+
+ENV USER=$USERNAME
 
 CMD ["sleep", "infinity"]
