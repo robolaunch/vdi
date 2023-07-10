@@ -13,7 +13,6 @@ RUN set -eux; apt-get update; \
     useradd --uid $USER_UID --gid $USERNAME --shell /bin/bash --create-home $USERNAME; \
     adduser $USERNAME audio; \
     adduser $USERNAME video; \
-    adduser $USERNAME pulse; \
     chown -R $USERNAME:$USERNAME /home/$USERNAME; \
     #
     # add user to sudoers
