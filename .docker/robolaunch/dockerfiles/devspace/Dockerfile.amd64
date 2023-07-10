@@ -34,7 +34,8 @@ RUN set -eux; \
     rm -f /tmp/firefox-setup.tar.bz2; \
     ln -s /usr/lib/firefox/firefox /usr/bin/firefox
 
-RUN apt-get update && apt-get install -y 
+RUN apt-get update && apt-get install -y python3 python3-pip
+RUN pip3 install notebook
 
 ### set theme
 ARG FIREFOX_ICON_URL="https://cdn-icons-png.flaticon.com/512/5968/5968827.png"
