@@ -8,6 +8,12 @@ ARG USERNAME=robolaunch
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
+### initial screen configurations
+RUN apt-get update && apt-get install -y \
+    sudo \
+    nano \
+    curl 
+
 RUN set -eux; apt-get update; \
     groupadd --gid $USER_GID $USERNAME; \
     useradd --uid $USER_UID --gid $USERNAME --shell /bin/bash --create-home $USERNAME; \
@@ -22,12 +28,6 @@ RUN set -eux; apt-get update; \
     # clean up
     apt-get clean -y; \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-### initial screen configurations
-RUN apt-get update && apt-get install -y \
-    sudo \
-    nano \
-    curl 
 
 ### helper tools
 RUN apt-get update && apt-get install -y \
