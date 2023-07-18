@@ -11,7 +11,7 @@ steps:
   dockerfile: "Dockerfile.nvidia"
   buildArgs: 
     "UBUNTU_RELEASE": "20.04"
-    "CUDA_VERSION": "11.2.0"
+    "CUDA_VERSION": "12.2.0"
     "VIRTUALGL_VERSION": "3.1"
   push: false
 - name: xfce
