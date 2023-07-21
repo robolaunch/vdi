@@ -1,4 +1,4 @@
-name: devspace-jammy-amd64-cuda-11.7.1
+name: devspace-jammy-amd64-cuda-12.0.0
 registry: docker.io
 organization: robolaunchio
 version: 0.1.4
@@ -11,7 +11,7 @@ steps:
   dockerfile: "Dockerfile.nvidia"
   buildArgs: 
     "UBUNTU_RELEASE": "22.04"
-    "CUDA_VERSION": "11.7.1"
+    "CUDA_VERSION": "12.0.0"
     "VIRTUALGL_VERSION": "3.1"
   push: false
 - name: xfce-base
@@ -35,7 +35,7 @@ steps:
 - name: devspace
   image:
     repository: devspace
-    tag: jammy-xfce-amd64-cuda-11.7.1
+    tag: jammy-xfce-amd64-cuda-12.0.0
   baseStep: "xfce"
   path: "."
   dockerfile: "Dockerfile.amd64"
