@@ -103,7 +103,7 @@ RUN npm run build
 #
 # STAGE 3: RUNTIME
 #
-FROM nvidia/cuda:${CUDA_VERSION}-cudnn8-runtime-ubuntu${UBUNTU_RELEASE} as runtime
+FROM nvidia/cuda:${CUDA_VERSION}-cudnn8-devel-ubuntu${UBUNTU_RELEASE} as runtime
 
 ARG UBUNTU_RELEASE
 ARG VIRTUALGL_VERSION
