@@ -1,0 +1,34 @@
+name: devspace-cudnn-focal-amd64
+registry: docker.io
+organization: robolaunchio
+version: 0.1.5
+steps:
+- name: vdi-base
+  image:
+    repository: vdi-base
+    tag: focal-cudnn-amd64
+  path: ".docker/robolaunch/dockerfiles/base"
+  dockerfile: "Dockerfile.nvidia-cudnn"
+  buildArgs: 
+    "UBUNTU_RELEASE": "20.04"
+    "CUDA_VERSION": "12.0.0"
+    "VIRTUALGL_VERSION": "3.1"
+  push: false
+- name: xfce
+  image:
+    repository: xfce
+    tag: focal-cudnn-amd64
+  baseStep: "vdi-base"
+  path: "."
+  dockerfile: "Dockerfile"
+  context: .docker/robolaunch/dockerfiles/xfce
+  push: false
+- name: devspace
+  image:
+    repository: devspace
+    tag: focal-cudnn-xfce-amd64
+  baseStep: "xfce"
+  path: "."
+  dockerfile: "Dockerfile.amd64"
+  context: .docker/robolaunch/dockerfiles/devspace
+  push: false
