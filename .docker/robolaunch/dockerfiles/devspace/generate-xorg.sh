@@ -29,7 +29,7 @@ if [ -z "$GPU_SELECT" ]; then
   exit 0
 else
   sed -i 's|::X-ENTRYPOINT::|/usr/bin/X vt7 -novtswitch -sharevts +extension "MIT-SHM" %(ENV_DISPLAY)s -config /etc/X11/xorg.conf %(ENV_DISPLAY)s|' /etc/vdi/supervisord.conf
-  sed -i 's|::NEKO_ENTRYPOINT::|/usr/bin/vdi serve -d --static "/var/www" --bind "0.0.0.0%(ENV_NEKO_BIND)s" --epr "%(ENV_NEKO_EPR)s" --display "%(ENV_DISPLAY)s" --video_codec "h264" --hwenc "nvenc"|' /etc/vdi/supervisord.conf
+  sed -i 's|::NEKO_ENTRYPOINT::|/usr/bin/vdi serve -d --static "/var/www" --bind "0.0.0.0%(ENV_NEKO_BIND)s" --epr "%(ENV_NEKO_EPR)s" --display "%(ENV_DISPLAY)s" --video_codec "h264"|' /etc/vdi/supervisord.conf
 fi
 
 if [ -f "/etc/X11/xorg.conf" ]; then

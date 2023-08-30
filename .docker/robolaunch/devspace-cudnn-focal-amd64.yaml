@@ -1,7 +1,7 @@
 name: devspace-cudnn-focal-amd64
 registry: docker.io
 organization: robolaunchio
-version: 0.1.5
+version: 0.1.6
 steps:
 - name: vdi-base
   image:
