@@ -21,10 +21,20 @@ else
       export DRIVER_VERSION=$NVIDIA_DRIVER_VERSION
     fi
 
+    cd /tmp
+
     # export DRIVER_VERSION=$NVIDIA_DRIVER_VERSION
     BASE_URL=https://download.nvidia.com/XFree86/Linux-x86_64
-    cd /tmp
-    curl -fsSL -O $BASE_URL/$DRIVER_VERSION/NVIDIA-Linux-x86_64-$DRIVER_VERSION.run
+    echo -e "GET $BASE_URL HTTP/1.0\n\n" | nc download.nvidia.com 80 > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+      echo "Downloading driver from https://download.nvidia.com..."
+      curl -fsSL -O $BASE_URL/$DRIVER_VERSION/NVIDIA-Linux-x86_64-$DRIVER_VERSION.run
+    else
+      echo "Downloading driver from internal MinIO..."
+      BASE_URL=https://$MINIO_DOMAIN/browser/$MINIO_BUCKET_NAME
+      curl -fsSL -O $BASE_URL/NVIDIA-Linux-x86_64-$DRIVER_VERSION.run
+    fi
+    
     sh NVIDIA-Linux-x86_64-$DRIVER_VERSION.run -x
     cd NVIDIA-Linux-x86_64-$DRIVER_VERSION
     ./nvidia-installer --silent \
