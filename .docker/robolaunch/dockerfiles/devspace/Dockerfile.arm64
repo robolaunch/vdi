@@ -12,7 +12,8 @@ ARG USER_GID=$USER_UID
 RUN apt-get update && apt-get install -y \
     sudo \
     nano \
-    curl 
+    curl \
+    netcat
 
 RUN set -eux; apt-get update; \
     groupadd --gid $USER_GID $USERNAME; \
