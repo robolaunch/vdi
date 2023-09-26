@@ -31,8 +31,8 @@ else
       curl -fsSL -O $BASE_URL/$DRIVER_VERSION/NVIDIA-Linux-x86_64-$DRIVER_VERSION.run
     else
       echo "Downloading driver from internal MinIO..."
-      BASE_URL=http://$MINIO_DOMAIN/browser/$MINIO_BUCKET_NAME
-      curl -fsSL -O $BASE_URL/NVIDIA-Linux-x86_64-$DRIVER_VERSION.run
+      BASE_URL=http://$MINIO_DOMAIN/$MINIO_BUCKET_NAME
+      wget $BASE_URL/NVIDIA-Linux-x86_64-$DRIVER_VERSION.run
     fi
     
     sh NVIDIA-Linux-x86_64-$DRIVER_VERSION.run -x
