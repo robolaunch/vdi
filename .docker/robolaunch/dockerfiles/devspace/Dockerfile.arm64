@@ -39,6 +39,4 @@ RUN apt-get update && apt-get install -y \
     dnsutils
 RUN curl -fsSL https://code-server.dev/install.sh | sh
 
-ENV USER=$USERNAME
-
 CMD ["sleep", "infinity"]
