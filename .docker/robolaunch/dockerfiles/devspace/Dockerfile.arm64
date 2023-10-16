@@ -13,7 +13,8 @@ RUN apt-get update && apt-get install -y \
     sudo \
     nano \
     curl \
-    netcat
+    netcat \
+    acl
 
 RUN set -eux; apt-get update; \
     groupadd --gid $USER_GID $USERNAME; \
