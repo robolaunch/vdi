@@ -1,7 +1,7 @@
 name: devspace-focal-amd64
 registry: docker.io
 organization: robolaunchio
-version: 0.1.9
+version: 0.1.10
 steps:
 - name: vdi-base
   image:

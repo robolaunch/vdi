@@ -1,7 +1,7 @@
 name: devspace-cuda-11.7.1-cudnn-focal-amd64
 registry: docker.io
 organization: robolaunchio
-version: 0.1.9
+version: 0.1.10
 steps:
 - name: vdi-base
   image:
