@@ -4,6 +4,10 @@ FROM ${BASE_IMAGE}
 SHELL ["/bin/bash", "-c"]
 ARG DEBIAN_FRONTEND=noninteractive
 
+ARG USERNAME=robolaunch
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
 ### initial screen configurations
 RUN apt-get update && apt-get install -y \
         nano \
@@ -38,6 +42,16 @@ RUN set -eux; \
 
 RUN apt-get update && apt-get install -y python3 python3-pip
 RUN pip3 install notebook
+RUN curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash; \
+    filebrowser config init -d /home/robolaunch/.local/filebrowser.db; \
+    filebrowser users add admin admin -d /home/robolaunch/.local/filebrowser.db; \
+    filebrowser config set --auth.method=noauth -d /home/robolaunch/.local/filebrowser.db
+
+RUN mkdir -p /etc/robolaunch/services /var/log/services/vdi; \
+    chmod 1777 /home/robolaunch/.local/filebrowser.db /var/log/services /var/log/services/vdi; \
+    chown $USERNAME /home/robolaunch/.local/filebrowser.db /var/log/services /var/log/services/vdi/
+
+COPY ./services/ /etc/robolaunch/services/
 
 ### set theme
 ARG FIREFOX_ICON_URL="https://cdn-icons-png.flaticon.com/512/5968/5968827.png"

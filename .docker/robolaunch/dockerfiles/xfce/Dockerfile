@@ -13,8 +13,3 @@ RUN set -eux; apt-get update; \
     # clean up
     apt-get clean -y; \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-#
-# copy configuation files
-COPY supervisord.conf /etc/vdi/supervisord/xfce.conf
-
