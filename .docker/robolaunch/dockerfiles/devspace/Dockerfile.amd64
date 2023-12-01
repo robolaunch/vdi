@@ -43,13 +43,18 @@ RUN set -eux; \
 RUN apt-get update && apt-get install -y python3 python3-pip
 RUN pip3 install notebook
 RUN curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash; \
+    git clone https://github.com/robolaunch/file-manager-config /home/robolaunch/.local/filebrowser-config; \
     filebrowser config init -d /home/robolaunch/.local/filebrowser.db; \
     filebrowser users add admin admin -d /home/robolaunch/.local/filebrowser.db; \
-    filebrowser config set --auth.method=noauth -d /home/robolaunch/.local/filebrowser.db
+    filebrowser config set --auth.method=noauth -d /home/robolaunch/.local/filebrowser.db; \
+    filebrowser config set --branding.name "robolaunch" \
+    --branding.files "/home/robolaunch/.local/filebrowser-config/branding" \
+    --branding.disableExternal \
+    -d /home/robolaunch/.local/filebrowser.db
 
 RUN mkdir -p /etc/robolaunch/services /var/log/services/vdi; \
-    chmod 1777 /home/robolaunch/.local/filebrowser.db /var/log/services /var/log/services/vdi; \
-    chown $USERNAME /home/robolaunch/.local/filebrowser.db /var/log/services /var/log/services/vdi/
+    chmod 1777 /home/robolaunch/.local/filebrowser.db /var/log/services /var/log/services/vdi /home/robolaunch/.local/filebrowser-config/; \
+    chown $USERNAME /home/robolaunch/.local/filebrowser.db /var/log/services /var/log/services/vdi/ /home/robolaunch/.local/filebrowser-config/
 
 COPY ./services/ /etc/robolaunch/services/
 
