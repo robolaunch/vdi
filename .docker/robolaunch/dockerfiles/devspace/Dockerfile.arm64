@@ -40,4 +40,8 @@ RUN apt-get update && apt-get install -y \
     dnsutils
 RUN curl -fsSL https://code-server.dev/install.sh | sh -s -- --version 4.15.0
 
+# setup tzdata to set timezone
+RUN apt-get update && \
+    apt-get install -y tzdata
+
 CMD ["sleep", "infinity"]

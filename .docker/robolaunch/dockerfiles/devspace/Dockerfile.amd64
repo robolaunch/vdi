@@ -74,4 +74,8 @@ RUN cp /usr/share/backgrounds/xfce/xfce-stripes.png /usr/share/backgrounds/xfce/
 RUN mkdir -p /etc/devspace
 COPY vdi-init.sh /etc/devspace/
 
+# setup tzdata to set timezone
+RUN apt-get update && \
+    apt-get install -y tzdata
+
 CMD ["sleep", "infinity"]
