@@ -1,7 +1,7 @@
 name: devspace-jammy-amd64
 registry: docker.io
 organization: robolaunchio
-version: 0.1.10
+version: 0.1.11
 steps:
 - name: vdi-base
   image:
