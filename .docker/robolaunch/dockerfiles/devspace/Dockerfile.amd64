@@ -40,21 +40,38 @@ RUN set -eux; \
     rm -f /tmp/firefox-setup.tar.bz2; \
     ln -s /usr/lib/firefox/firefox /usr/bin/firefox
 
+ARG FILEBROWSER_CONFIG_PATH=/etc/robolaunch/filebrowser
+RUN mkdir -p /etc/robolaunch/services ${FILEBROWSER_CONFIG_PATH} /var/log/services/vdi
+
 RUN apt-get update && apt-get install -y python3 python3-pip
 RUN pip3 install notebook
 RUN curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash; \
-    git clone https://github.com/robolaunch/file-manager-config /home/robolaunch/.local/filebrowser-config; \
-    filebrowser config init -d /home/robolaunch/.local/filebrowser.db; \
-    filebrowser users add admin admin -d /home/robolaunch/.local/filebrowser.db; \
-    filebrowser config set --auth.method=noauth -d /home/robolaunch/.local/filebrowser.db; \
+    git clone https://github.com/robolaunch/file-manager-config ${FILEBROWSER_CONFIG_PATH}/filebrowser-config; \
+    filebrowser config init -d ${FILEBROWSER_CONFIG_PATH}/filebrowser.db; \
+    filebrowser users add admin admin -d ${FILEBROWSER_CONFIG_PATH}/filebrowser.db; \
+    filebrowser config set --auth.method=noauth -d ${FILEBROWSER_CONFIG_PATH}/filebrowser.db; \
     filebrowser config set --branding.name "robolaunch" \
-    --branding.files "/home/robolaunch/.local/filebrowser-config/branding" \
+    --branding.files ${FILEBROWSER_CONFIG_PATH}"/filebrowser-config/branding" \
     --branding.disableExternal \
-    -d /home/robolaunch/.local/filebrowser.db
+    -d ${FILEBROWSER_CONFIG_PATH}/filebrowser.db
 
-RUN mkdir -p /etc/robolaunch/services /var/log/services/vdi; \
-    chmod 1777 /home/robolaunch/.local/filebrowser.db /var/log/services /var/log/services/vdi /home/robolaunch/.local/filebrowser-config/; \
-    chown $USERNAME /home/robolaunch/.local/filebrowser.db /var/log/services /var/log/services/vdi/ /home/robolaunch/.local/filebrowser-config/
+RUN cp ${FILEBROWSER_CONFIG_PATH}/filebrowser.db ${FILEBROWSER_CONFIG_PATH}/filebrowser-code-server.db; \
+    cp ${FILEBROWSER_CONFIG_PATH}/filebrowser.db ${FILEBROWSER_CONFIG_PATH}/filebrowser-vdi.db
+
+RUN chmod 1777 \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser.db \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-code-server.db \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-vdi.db \
+        /var/log/services \
+        /var/log/services/vdi \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-config/; \
+    chown $USERNAME \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser.db \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-code-server.db \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-vdi.db \
+        /var/log/services \
+        /var/log/services/vdi/ \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-config/
 
 COPY ./services/ /etc/robolaunch/services/
 
