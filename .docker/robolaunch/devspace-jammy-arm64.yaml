@@ -1,7 +1,7 @@
 name: devspace-jammy-arm64
 registry: docker.io
 organization: robolaunchio
-version: 0.1.12
+version: 0.1.13
 steps:
 - name: devspace
   image:
