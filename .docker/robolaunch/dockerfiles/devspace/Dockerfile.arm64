@@ -69,8 +69,6 @@ RUN chmod 1777 \
 
 COPY ./services/ /etc/robolaunch/services/
 
-COPY ./services/ /etc/robolaunch/services/
-
 # setup tzdata to set timezone
 RUN apt-get update && \
     apt-get install -y tzdata
