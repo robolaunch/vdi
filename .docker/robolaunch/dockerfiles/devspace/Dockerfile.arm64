@@ -37,8 +37,39 @@ RUN apt-get update && apt-get install -y \
     pip \
     git \
     wget \
-    dnsutils
+    dnsutils \
+    supervisor
 RUN curl -fsSL https://code-server.dev/install.sh | sh -s -- --version 4.15.0
+
+ARG FILEBROWSER_CONFIG_PATH=/etc/robolaunch/filebrowser
+RUN mkdir -p /etc/robolaunch/services ${FILEBROWSER_CONFIG_PATH} /var/log/services
+
+RUN curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash; \
+    git clone https://github.com/robolaunch/file-manager-config ${FILEBROWSER_CONFIG_PATH}/filebrowser-config; \
+    filebrowser config init -d ${FILEBROWSER_CONFIG_PATH}/filebrowser.db; \
+    filebrowser users add admin admin -d ${FILEBROWSER_CONFIG_PATH}/filebrowser.db; \
+    filebrowser config set --auth.method=noauth -d ${FILEBROWSER_CONFIG_PATH}/filebrowser.db; \
+    filebrowser config set --branding.name "robolaunch" \
+    --branding.files ${FILEBROWSER_CONFIG_PATH}"/filebrowser-config/branding" \
+    --branding.disableExternal \
+    -d ${FILEBROWSER_CONFIG_PATH}/filebrowser.db
+
+RUN cp ${FILEBROWSER_CONFIG_PATH}/filebrowser.db ${FILEBROWSER_CONFIG_PATH}/filebrowser-code-server.db
+
+RUN chmod 1777 \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser.db \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-code-server.db \
+        /var/log/services \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-config/; \
+    chown $USERNAME \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser.db \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-code-server.db \
+        /var/log/services \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-config/
+
+COPY ./services/ /etc/robolaunch/services/
+
+COPY ./services/ /etc/robolaunch/services/
 
 # setup tzdata to set timezone
 RUN apt-get update && \
