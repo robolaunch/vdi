@@ -201,12 +201,12 @@ RUN set -eux; \
     chown $USERNAME /tmp/.X11-unix/; \
     #
     # make directories for neko
-    mkdir -p /etc/vdi /var/www /var/log/vdi \
+    mkdir -p /etc/vdi /var/www /var/log/services/vdi \
         /tmp/runtime-$USERNAME \
         /home/$USERNAME/.config/pulse  \
         /home/$USERNAME/.local/share/xorg; \
-    chmod 1777 /var/log/vdi; \
-    chown $USERNAME /var/log/vdi/ /tmp/runtime-$USERNAME; \
+    chmod 1777 /var/log/services/vdi; \
+    chown $USERNAME /var/log/services/vdi/ /tmp/runtime-$USERNAME; \
     chown -R $USERNAME:$USERNAME /home/$USERNAME; \
     #
     # clean up
@@ -257,7 +257,6 @@ RUN set -eux; \
 # copy config files
 COPY .docker/robolaunch/dockerfiles/base/dbus /usr/bin/dbus
 COPY .docker/robolaunch/dockerfiles/base/default.pa /etc/pulse/default.pa
-COPY .docker/robolaunch/dockerfiles/base/supervisord.conf /etc/vdi/supervisord.conf
 COPY .docker/robolaunch/dockerfiles/base/xorg.conf /etc/vdi/xorg.conf
 COPY .docker/robolaunch/dockerfiles/base/nvidia/entrypoint.sh /bin/entrypoint.sh
 
