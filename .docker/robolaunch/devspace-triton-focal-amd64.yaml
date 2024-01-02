@@ -1,7 +1,7 @@
 name: devspace-triton-focal-amd64
 registry: docker.io
 organization: robolaunchio
-version: 0.1.15
+version: 0.1.16
 steps:
 - name: vdi-base
   image:
