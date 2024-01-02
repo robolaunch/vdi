@@ -56,12 +56,14 @@ RUN curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh |
     -d ${FILEBROWSER_CONFIG_PATH}/filebrowser.db
 
 RUN cp ${FILEBROWSER_CONFIG_PATH}/filebrowser.db ${FILEBROWSER_CONFIG_PATH}/filebrowser-code-server.db; \
-    cp ${FILEBROWSER_CONFIG_PATH}/filebrowser.db ${FILEBROWSER_CONFIG_PATH}/filebrowser-vdi.db
+    cp ${FILEBROWSER_CONFIG_PATH}/filebrowser.db ${FILEBROWSER_CONFIG_PATH}/filebrowser-vdi.db; \
+    cp ${FILEBROWSER_CONFIG_PATH}/filebrowser.db ${FILEBROWSER_CONFIG_PATH}/filebrowser-notebook.db
 
 RUN chmod 1777 \
         ${FILEBROWSER_CONFIG_PATH}/filebrowser.db \
         ${FILEBROWSER_CONFIG_PATH}/filebrowser-code-server.db \
         ${FILEBROWSER_CONFIG_PATH}/filebrowser-vdi.db \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-notebook.db \
         /var/log/services \
         /var/log/services/vdi \
         ${FILEBROWSER_CONFIG_PATH}/filebrowser-config/; \
@@ -69,6 +71,7 @@ RUN chmod 1777 \
         ${FILEBROWSER_CONFIG_PATH}/filebrowser.db \
         ${FILEBROWSER_CONFIG_PATH}/filebrowser-code-server.db \
         ${FILEBROWSER_CONFIG_PATH}/filebrowser-vdi.db \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-notebook.db \
         /var/log/services \
         /var/log/services/vdi/ \
         ${FILEBROWSER_CONFIG_PATH}/filebrowser-config/
