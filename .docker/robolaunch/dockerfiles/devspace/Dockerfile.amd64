@@ -44,7 +44,7 @@ ARG FILEBROWSER_CONFIG_PATH=/etc/robolaunch/filebrowser
 RUN mkdir -p /etc/robolaunch/services ${FILEBROWSER_CONFIG_PATH} /var/log/services/vdi
 
 RUN apt-get update && apt-get install -y python3 python3-pip
-RUN pip3 install notebook
+RUN pip3 install jupyterlab
 RUN curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash; \
     git clone https://github.com/robolaunch/file-manager-config ${FILEBROWSER_CONFIG_PATH}/filebrowser-config; \
     filebrowser config init -d ${FILEBROWSER_CONFIG_PATH}/filebrowser.db; \
