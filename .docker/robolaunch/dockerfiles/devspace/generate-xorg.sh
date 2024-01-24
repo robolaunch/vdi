@@ -20,7 +20,7 @@ else
   fi
 fi
 
-if [ -z "$GPU_SELECT" ]; then
+if [ -z "$GPU_SELECT" ] || [ "$USE_GPU" = "false" ]; then
   echo "No NVIDIA GPUs detected."
 #   apt-get install -y xserver-xorg-video-dummy
   cp /etc/vdi/xorg.conf /etc/X11/xorg.conf
