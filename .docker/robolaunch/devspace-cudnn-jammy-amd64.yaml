@@ -14,13 +14,22 @@ steps:
     "CUDA_VERSION": "12.0.0"
     "VIRTUALGL_VERSION": "3.1"
   push: false
+- name: xfce-base
+  image:
+    repository: xfce
+    tag: base-jammy-cuda-12.0.0-cudnn-amd64
+  baseStep: "vdi-base"
+  path: "."
+  dockerfile: "Dockerfile"
+  context: .docker/robolaunch/dockerfiles/xfce
+  push: false
 - name: xfce
   image:
     repository: xfce
     tag: jammy-cuda-12.0.0-cudnn-amd64
-  baseStep: "vdi-base"
+  baseStep: "xfce-base"
   path: "."
-  dockerfile: "Dockerfile"
+  dockerfile: "Dockerfile.jammy-ext"
   context: .docker/robolaunch/dockerfiles/xfce
   push: false
 - name: devspace
