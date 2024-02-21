@@ -12,4 +12,4 @@ steps:
   dockerfile: "Dockerfile.arm64"
   buildArgs:
     "BASE_IMAGE": "ubuntu:focal"
-  push: false
+  push: true

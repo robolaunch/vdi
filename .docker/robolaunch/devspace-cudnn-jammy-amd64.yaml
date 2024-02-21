@@ -40,4 +40,4 @@ steps:
   path: "."
   dockerfile: "Dockerfile.amd64"
   context: .docker/robolaunch/dockerfiles/devspace
-  push: false
+  push: true
