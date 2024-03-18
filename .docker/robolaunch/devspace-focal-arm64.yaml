@@ -1,7 +1,7 @@
 name: devspace-focal-arm64
 registry: docker.io
 organization: robolaunchio
-version: 0.2.6-alpha.19
+version: 0.2.6-alpha.20
 steps:
 - name: devspace
   image:
