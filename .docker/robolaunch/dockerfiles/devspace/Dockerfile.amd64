@@ -29,7 +29,8 @@ RUN apt-get update && apt-get install -y \
     libgtk-3-0 \
     libdbus-glib-1-2 \
     netcat \
-    acl
+    acl \
+    bash-completion
 RUN curl -fsSL https://raw.githubusercontent.com/cdr/code-server/main/install.sh | sh
 
 ARG SRC_URL="https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=en-US"
