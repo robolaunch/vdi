@@ -1,0 +1,15 @@
+name: devspace-jammy-arm64
+registry: docker.io
+organization: robolaunchio
+version: 0.1.0-beta.02
+steps:
+- name: devspace
+  image:
+    repository: devspace
+    tag: jammy-arm64
+  path: "."
+  context: ".docker/robolaunch-helm-based-structure/dockerfiles/devspace"
+  dockerfile: "Dockerfile.arm64"
+  buildArgs:
+    "BASE_IMAGE": "ubuntu:jammy"
+  push: true

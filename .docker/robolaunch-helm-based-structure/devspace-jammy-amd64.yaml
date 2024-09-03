@@ -1,0 +1,43 @@
+name: devspace-jammy-amd64
+registry: docker.io
+organization: robolaunchio
+version: 0.1.0-beta.02
+steps:
+- name: vdi-base
+  image:
+    repository: vdi-base
+    tag: jammy-amd64
+  path: ".docker/robolaunch-helm-based-structure/dockerfiles/base"
+  dockerfile: "Dockerfile.nvidia"
+  buildArgs: 
+    "UBUNTU_RELEASE": "22.04"
+    "CUDA_VERSION": "12.2.2"
+    "VIRTUALGL_VERSION": "3.1"
+  push: false
+- name: xfce-base
+  image:
+    repository: xfce
+    tag: base-jammy-amd64
+  baseStep: "vdi-base"
+  path: "."
+  dockerfile: "Dockerfile"
+  context: .docker/robolaunch-helm-based-structure/dockerfiles/xfce
+  push: false
+- name: xfce
+  image:
+    repository: xfce
+    tag: jammy-amd64
+  baseStep: "xfce-base"
+  path: "."
+  dockerfile: "Dockerfile.jammy-ext"
+  context: .docker/robolaunch-helm-based-structure/dockerfiles/xfce
+  push: false
+- name: devspace
+  image:
+    repository: devspace
+    tag: jammy-xfce-amd64
+  baseStep: "xfce"
+  path: "."
+  dockerfile: "Dockerfile.amd64"
+  context: .docker/robolaunch-helm-based-structure/dockerfiles/devspace
+  push: true

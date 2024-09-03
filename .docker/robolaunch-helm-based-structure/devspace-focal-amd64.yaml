@@ -1,0 +1,34 @@
+name: devspace-focal-amd64
+registry: docker.io
+organization: robolaunchio
+version: 0.1.0-beta.02
+steps:
+- name: vdi-base
+  image:
+    repository: vdi-base
+    tag: focal-amd64
+  path: ".docker/robolaunch-helm-based-structure/dockerfiles/base"
+  dockerfile: "Dockerfile.nvidia"
+  buildArgs: 
+    "UBUNTU_RELEASE": "20.04"
+    "CUDA_VERSION": "12.0.0"
+    "VIRTUALGL_VERSION": "3.1"
+  push: false
+- name: xfce
+  image:
+    repository: xfce
+    tag: focal-amd64
+  baseStep: "vdi-base"
+  path: "."
+  dockerfile: "Dockerfile"
+  context: .docker/robolaunch-helm-based-structure/dockerfiles/xfce
+  push: false
+- name: devspace
+  image:
+    repository: devspace
+    tag: focal-xfce-amd64
+  baseStep: "xfce"
+  path: "."
+  dockerfile: "Dockerfile.amd64"
+  context: .docker/robolaunch-helm-based-structure/dockerfiles/devspace
+  push: true
