@@ -1,0 +1,102 @@
+ARG BASE_IMAGE=robolaunchio/xfce:focal
+FROM ${BASE_IMAGE}
+
+SHELL ["/bin/bash", "-c"]
+ARG DEBIAN_FRONTEND=noninteractive
+
+ARG USERNAME=robolaunch
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
+### initial screen configurations
+RUN apt-get update && apt-get install -y \
+        nano \
+        curl \
+        kmod \
+        xz-utils \
+        mate-themes
+COPY ./install-driver.sh /etc/vdi/
+COPY ./generate-xorg.sh /etc/vdi/
+RUN chmod +x /etc/vdi/install-driver.sh /etc/vdi/generate-xorg.sh
+
+### helper tools
+RUN apt-get update && apt-get install -y \
+    curl \
+    pip \
+    git \
+    wget \
+    dnsutils \
+    libgtk-3-0 \
+    libdbus-glib-1-2 \
+    netcat \
+    acl \
+    bash-completion
+RUN curl -fsSL https://raw.githubusercontent.com/cdr/code-server/main/install.sh | sh
+
+ARG SRC_URL="https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=en-US"
+RUN set -eux; \
+    wget -O /tmp/firefox-setup.tar.bz2 "${SRC_URL}"; \
+    mkdir /usr/lib/firefox; \
+    tar -xjf /tmp/firefox-setup.tar.bz2 -C /usr/lib; \
+    rm -f /tmp/firefox-setup.tar.bz2; \
+    ln -s /usr/lib/firefox/firefox /usr/bin/firefox
+
+ARG FILEBROWSER_CONFIG_PATH=/etc/robolaunch/filebrowser
+RUN mkdir -p /etc/robolaunch/services ${FILEBROWSER_CONFIG_PATH} /var/log/services/vdi
+
+RUN apt-get update && apt-get install -y python3 python3-pip
+RUN pip3 install jupyterlab
+RUN curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash; \
+    git clone https://github.com/robolaunch/file-manager-config ${FILEBROWSER_CONFIG_PATH}/filebrowser-config; \
+    filebrowser config init -d ${FILEBROWSER_CONFIG_PATH}/filebrowser.db; \
+    filebrowser users add admin admin -d ${FILEBROWSER_CONFIG_PATH}/filebrowser.db; \
+    filebrowser config set --auth.method=noauth -d ${FILEBROWSER_CONFIG_PATH}/filebrowser.db; \
+    filebrowser config set --branding.name "robolaunch" \
+    --branding.files ${FILEBROWSER_CONFIG_PATH}"/filebrowser-config/branding" \
+    --branding.disableExternal \
+    -d ${FILEBROWSER_CONFIG_PATH}/filebrowser.db
+
+RUN cp ${FILEBROWSER_CONFIG_PATH}/filebrowser.db ${FILEBROWSER_CONFIG_PATH}/filebrowser-code-server.db; \
+    cp ${FILEBROWSER_CONFIG_PATH}/filebrowser.db ${FILEBROWSER_CONFIG_PATH}/filebrowser-vdi.db; \
+    cp ${FILEBROWSER_CONFIG_PATH}/filebrowser.db ${FILEBROWSER_CONFIG_PATH}/filebrowser-notebook.db
+
+RUN chmod 1777 \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser.db \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-code-server.db \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-vdi.db \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-notebook.db \
+        /var/log/services \
+        /var/log/services/vdi \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-config/; \
+    chown $USERNAME \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser.db \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-code-server.db \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-vdi.db \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-notebook.db \
+        /var/log/services \
+        /var/log/services/vdi/ \
+        ${FILEBROWSER_CONFIG_PATH}/filebrowser-config/
+
+COPY ./services/ /etc/robolaunch/services/
+
+### set theme
+ARG FIREFOX_ICON_URL="https://cdn-icons-png.flaticon.com/512/5968/5968827.png"
+RUN wget ${FIREFOX_ICON_URL} -O firefox.png && mv firefox.png /usr/share/icons/
+COPY xfce4.tar.gz .
+RUN tar -xf xfce4.tar.gz --directory /home/robolaunch/.config/
+RUN rm -rf xfce4.tar.gz
+
+### set background
+RUN rm /usr/share/backgrounds/xfce/*
+COPY xfce-stripes.png /usr/share/backgrounds/xfce/
+RUN cp /usr/share/backgrounds/xfce/xfce-stripes.png /usr/share/backgrounds/xfce/xfce-verticals.png
+
+# copy init scripts
+RUN mkdir -p /etc/devspace
+COPY vdi-init.sh /etc/devspace/
+
+# setup tzdata to set timezone
+RUN apt-get update && \
+    apt-get install -y tzdata
+
+CMD ["sleep", "infinity"]
