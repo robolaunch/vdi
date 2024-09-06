@@ -6,18 +6,19 @@ steps:
 - name: vdi-base
   image:
     repository: vdi-base
-    tag: jammy-amd64
+    tag: jammy-amd64-cuda-12.2.2
   path: ".docker/robolaunch-helm-based-structure/dockerfiles/base"
   dockerfile: "Dockerfile.nvidia"
   buildArgs: 
     "UBUNTU_RELEASE": "22.04"
     "CUDA_VERSION": "12.2.2"
     "VIRTUALGL_VERSION": "3.1"
+    "PLAIN_VERSION": "0.1.0"
   push: false
 - name: xfce-base
   image:
     repository: xfce
-    tag: base-jammy-amd64
+    tag: base-jammy-amd64-cuda-12.2.2
   baseStep: "vdi-base"
   path: "."
   dockerfile: "Dockerfile"
@@ -26,7 +27,7 @@ steps:
 - name: xfce
   image:
     repository: xfce
-    tag: jammy-amd64
+    tag: jammy-amd64-cuda-12.2.2
   baseStep: "xfce-base"
   path: "."
   dockerfile: "Dockerfile.jammy-ext"
@@ -35,7 +36,7 @@ steps:
 - name: devspace
   image:
     repository: devspace
-    tag: jammy-xfce-amd64
+    tag: plain-0.1.0-jammy-xfce-amd64-cuda-12.2.2
   baseStep: "xfce"
   path: "."
   dockerfile: "Dockerfile.amd64"

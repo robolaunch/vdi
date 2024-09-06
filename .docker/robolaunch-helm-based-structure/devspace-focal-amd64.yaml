@@ -6,18 +6,19 @@ steps:
 - name: vdi-base
   image:
     repository: vdi-base
-    tag: focal-amd64
+    tag: focal-amd64-cuda-12.0.0
   path: ".docker/robolaunch-helm-based-structure/dockerfiles/base"
   dockerfile: "Dockerfile.nvidia"
   buildArgs: 
     "UBUNTU_RELEASE": "20.04"
     "CUDA_VERSION": "12.0.0"
     "VIRTUALGL_VERSION": "3.1"
+    "PLAIN_VERSION": "0.1.0"
   push: false
 - name: xfce
   image:
     repository: xfce
-    tag: focal-amd64
+    tag: focal-amd64-cuda-12.0.0
   baseStep: "vdi-base"
   path: "."
   dockerfile: "Dockerfile"
@@ -26,7 +27,7 @@ steps:
 - name: devspace
   image:
     repository: devspace
-    tag: focal-xfce-amd64
+    tag: plain-0.1.0-focal-xfce-amd64-cuda-12.0.0
   baseStep: "xfce"
   path: "."
   dockerfile: "Dockerfile.amd64"

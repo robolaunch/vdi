@@ -6,10 +6,11 @@ steps:
 - name: devspace
   image:
     repository: devspace
-    tag: jammy-arm64
+    tag: plain-0.1.0-jammy-arm64
   path: "."
   context: ".docker/robolaunch-helm-based-structure/dockerfiles/devspace"
   dockerfile: "Dockerfile.arm64"
   buildArgs:
     "BASE_IMAGE": "ubuntu:jammy"
+    "PLAIN_VERSION": "0.1.0"
   push: true
